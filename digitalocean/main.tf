@@ -135,13 +135,11 @@ resource "digitalocean_app" "app" {
   }
 }
 
-# TODO firewall DB
+resource "digitalocean_database_firewall" "app" {
+  cluster_id = digitalocean_database_cluster.pg.id
 
-# resource "digitalocean_database_firewall" "app" {
-#   cluster_id = digitalocean_database_cluster.pg.id
-
-#   rule {
-#     type  = "app"
-#     value = digitalocean_app.app.id
-#   }
-# }
+  rule {
+    type  = "app"
+    value = digitalocean_app.app.id
+  }
+}

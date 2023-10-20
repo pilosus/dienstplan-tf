@@ -178,7 +178,7 @@ resource "digitalocean_app" "app" {
       build_command      = "docker build --build-arg=VERSION=${var.app.version} ."
 
       github {
-        repo = "pilosus/dienstplan-tf"
+        repo   = "pilosus/dienstplan-tf"
         branch = "cron"
       }
     }

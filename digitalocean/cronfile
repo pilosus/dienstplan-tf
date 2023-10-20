@@ -1,0 +1,3 @@
+* * * * * cd /usr/src/app && java -jar app.jar --mode schedule
+
+# An empty line is required at the end of this file for a valid cron file.

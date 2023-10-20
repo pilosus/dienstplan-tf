@@ -169,6 +169,19 @@ resource "digitalocean_app" "app" {
         type  = "SECRET"
       }
     }
+
+    worker {
+      name               = "${var.app.name}-schedule"
+      instance_count     = var.app.instance_count
+      instance_size_slug = var.app.instance_size
+      dockerfile_path    = "Dockerfile-cron"
+      build_command      = "docker build --build-arg=VERSION=${var.app.version} ."
+
+      github {
+        repo = "pilosus/dienstplan-tf"
+        branch = "cron"
+      }
+    }
   }
 }
 

@@ -16,10 +16,15 @@ resource "digitalocean_database_db" "app" {
   name       = var.database.db_name
 }
 
+# User role cannot be overriden and equals to `normal` by default,
+# hence doesn't have DDL permissions!
+# For DDL ops use default admin user created by the
+# digitalocean_database_cluster resource
 resource "digitalocean_database_user" "app" {
   cluster_id = digitalocean_database_cluster.pg.id
   name       = var.database.user_name
 }
+
 
 resource "digitalocean_database_cluster" "pg" {
   region     = var.do.region
@@ -43,7 +48,7 @@ resource "digitalocean_app" "app" {
     # env: DB
     env {
       key   = "DB__SERVER_NAME"
-      value = digitalocean_database_cluster.pg.private_host
+      value = digitalocean_database_cluster.pg.host
     }
 
     env {
@@ -150,6 +155,18 @@ resource "digitalocean_app" "app" {
         registry      = var.docker.registry
         repository    = var.app.name
         tag           = var.app.version
+      }
+
+      # Override DB user/password for a user with DDL permissions
+      env {
+        key   = "DB__USERNAME"
+        value = digitalocean_database_cluster.pg.user
+      }
+
+      env {
+        key   = "DB__PASSWORD"
+        value = digitalocean_database_cluster.pg.password
+        type  = "SECRET"
       }
     }
   }

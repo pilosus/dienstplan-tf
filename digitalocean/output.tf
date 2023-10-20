@@ -20,6 +20,17 @@ output "db_name" {
   value       = digitalocean_database_db.app.name
 }
 
+output "db_username_ddl" {
+  description = "DB username (DDL permissions)"
+  value       = digitalocean_database_cluster.pg.user
+}
+
+output "db_password_ddl" {
+  description = "DB password (DDL permissions)"
+  value       = digitalocean_database_cluster.pg.password
+  sensitive   = true
+}
+
 output "db_username" {
   description = "DB username"
   value       = digitalocean_database_user.app.name

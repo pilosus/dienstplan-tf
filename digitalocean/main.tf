@@ -43,8 +43,8 @@ resource "digitalocean_app" "app" {
 
       image {
         registry_type = "DOCKER_HUB"
-        registry      = "https://hub.docker.com"
-        repository    = "pilosus/dienstplan"
+        registry      = "pilosus"
+        repository    = "dienstplan"
         tag           = var.app.version
       }
 

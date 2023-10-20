@@ -174,12 +174,17 @@ resource "digitalocean_app" "app" {
       name               = "${var.app.name}-schedule"
       instance_count     = var.app.instance_count
       instance_size_slug = var.app.instance_size
-      dockerfile_path    = "Dockerfile-cron"
-      build_command      = "docker build --build-arg=VERSION=${var.app.version} ."
+      dockerfile_path    = "digitalocean/Dockerfile-cron"
+      # build_command      = "docker build --build-arg=VERSION=${var.app.version} -f digitalocean/Dockerfile-cron ."
 
       github {
         repo   = "pilosus/dienstplan-tf"
         branch = "cron"
+      }
+
+      env {
+        key   = "VERSION"
+        value = var.app.version
       }
     }
   }

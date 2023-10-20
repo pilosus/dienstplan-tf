@@ -4,7 +4,7 @@ FROM pilosus/dienstplan:$VERSION
 USER root
 RUN apk add --update busybox-suid
 
-COPY cronfile /usr/src/app/cronfile
+COPY digitalocean/cronfile /usr/src/app/cronfile
 RUN crontab /usr/src/app/cronfile
 
 CMD ["crond", "-f", "-L", "2"]

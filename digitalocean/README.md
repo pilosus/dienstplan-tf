@@ -1,55 +1,66 @@
-# Deploy dienstplan to DigitalOcean with Terraform
+# dienstplan: Terraform config for DigitalOcean provider
+
+Deploy infrastructure for
+[dienstplan](https://github.com/pilosus/dienstplan) using
+[Terraform](https://developer.hashicorp.com/terraform) in
+[DigitalOcean](https://www.digitalocean.com/) public cloud.
 
 ## Architecture Overview
 
-1. DigitalOcean Database (PostgreSQL)
-2. DigitalOcean App (Docker container)
+1. DigitalOcean Managed Database (PostgreSQL)
+2. DigitalOcean App (Docker container):
+   - server (service)
+   - job (DB migration)
+   - [TODO] job (cron job)
+3. Firewall Rule:
+   - allow App <> Database only
 
-## Plan & Apply
+## Usage
 
-1. Initialize
+1. Clone the repo
 
-```
-terraform init
-```
+2. Define input variables:
 
-2. Provide input variables
-
-There are two options to provide input variables:
-
-- Add them to `terraform.tfvars` files as follows:
+- Add them to the `terraform.tfvars` file as follows:
 
 ```
 do_access_token = "YOUR-ACCESS-TOKEN"
 another_variable = ...
 ```
 
-- Pass in a variable as a CLI option `-var`:
+- Alternatively, use `-var="var1=val1"-var="var2=val2" ...` when
+  invoking `terraform plan` or `terraform apply`
+
+2. Initialise
 
 ```
--var="do_access_token=YOUR-ACCESS-TOKEN"
+terraform init
 ```
 
 3. Review the plan
 
 ```
 terraform plan
-# or with CLI arg
-# terraform plan -var="do_access_token=YOUR-ACCESS-TOKEN"
 ```
 
 4. Apply changes
 
 ```
 terraform apply
-# or with CLI arg
-# terraform apply -var="do_access_token=YOUR-ACCESS-TOKEN"
 ```
 
 5. Output results
 
+Get outputs with:
+
 ```
 terraform output
-# machine readable format with sensitive data included
-terraform output -json
+```
+
+The most important one is an URL of deployed app printed under `app_live_url`.
+
+Validate the app is deployed correctly:
+
+```
+curl -SsL "$( terraform output -json | jq --raw-output '.app_live_url.value' )/api/healthcheck" | jq
 ```

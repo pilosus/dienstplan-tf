@@ -25,6 +25,12 @@ Deploy infrastructure for
 
 ```
 do_access_token = "YOUR-ACCESS-TOKEN"
+
+slack = {
+  token = "YOUR-SLACK-TOKEN"
+  sign  = "YOUR-SLACK-SIGNING-KEY"
+}
+
 another_variable = ...
 ```
 

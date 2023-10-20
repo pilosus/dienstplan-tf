@@ -15,6 +15,19 @@ variable "do" {
   }
 }
 
+variable "docker" {
+  description = "Docker image configuration"
+  type = object({
+    registry_type = string
+    registry      = string
+  })
+
+  default = {
+    registry_type = "DOCKER_HUB"
+    registry      = "pilosus"
+  }
+}
+
 variable "slack" {
   description = "Slack tokens"
   type = object({

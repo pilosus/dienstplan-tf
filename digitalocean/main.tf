@@ -37,7 +37,7 @@ resource "digitalocean_database_cluster" "pg" {
 
 resource "digitalocean_app" "app" {
   spec {
-    name   = "${var.app.name}-server"
+    name   = "${var.app.name}-app"
     region = var.do.region
 
     alert {
@@ -95,7 +95,7 @@ resource "digitalocean_app" "app" {
     # env: common
     env {
       key   = "APP__VERSION"
-      value = var.app.version
+      value = var.app_version
     }
 
     env {
@@ -133,7 +133,7 @@ resource "digitalocean_app" "app" {
         registry_type = var.docker.registry_type
         registry      = var.docker.registry
         repository    = var.app.name
-        tag           = var.app.version
+        tag           = var.app_version
       }
 
       health_check {
@@ -154,7 +154,7 @@ resource "digitalocean_app" "app" {
         registry_type = var.docker.registry_type
         registry      = var.docker.registry
         repository    = var.app.name
-        tag           = var.app.version
+        tag           = var.app_version
       }
 
       # Override DB user/password for a user with DDL permissions
@@ -169,6 +169,20 @@ resource "digitalocean_app" "app" {
         type  = "SECRET"
       }
     }
+
+    # worker {
+    #   name               = "${var.app.name}-schedule"
+    #   instance_count     = var.app.instance_count
+    #   instance_size_slug = var.app.instance_size
+    #   run_command        = "java -jar app.jar --mode schedule-daemon"
+
+    #   image {
+    #     registry_type = var.docker.registry_type
+    #     registry      = var.docker.registry
+    #     repository    = var.app.name
+    #     tag           = var.app_version
+    #   }
+    # }
   }
 }
 

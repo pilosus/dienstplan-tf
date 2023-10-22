@@ -15,6 +15,11 @@ variable "do" {
   }
 }
 
+variable "app_version" {
+  description = "Version of the app (Docker image)"
+  type        = string
+}
+
 variable "docker" {
   description = "Docker image configuration"
   type = object({
@@ -71,7 +76,6 @@ variable "app" {
   description = "DigitalOcean App configuration"
   type = object({
     name                              = string
-    version                           = string
     env                               = string
     debug                             = bool
     instance_size                     = string
@@ -84,7 +88,6 @@ variable "app" {
 
   default = {
     name                              = "dienstplan"
-    version                           = "1.1.94"
     env                               = "prod"
     debug                             = false
     instance_size                     = "basic-xxs"

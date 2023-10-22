@@ -11,7 +11,7 @@ Deploy infrastructure for
 2. DigitalOcean App (Docker container):
    - server (service)
    - job (DB migration)
-   - [TODO] job (cron job)
+   - worker (schedules processing)
 3. Firewall Rule:
    - allow App <> Database only
 

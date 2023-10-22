@@ -26,6 +26,8 @@ Deploy infrastructure for
 ```
 do_access_token = "YOUR-ACCESS-TOKEN"
 
+app_version = "1.1.94"
+
 slack = {
   token = "YOUR-SLACK-TOKEN"
   sign  = "YOUR-SLACK-SIGNING-KEY"
